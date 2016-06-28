@@ -1,0 +1,52 @@
+<configuration scan="true" scanPeriod="10 seconds">
+    <include resource="org/springframework/boot/logging/logback/base.xml" />   
+    
+
+     <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">         
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
+            <!--日志文件输出的文件名-->  
+            <FileNamePattern>${LOG_PATH}/myApp.log.%d{yyyy-MM-dd}.log</FileNamePattern>     
+            <MaxHistory>30</MaxHistory>  
+        </rollingPolicy>     
+        <layout class="ch.qos.logback.classic.PatternLayout">    
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->   
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n     
+            </pattern>     
+       </layout>   
+        <!--日志文件最大的大小-->  
+       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">  
+         <MaxFileSize>10MB</MaxFileSize>  
+       </triggeringPolicy>  
+    </appender> 
+    
+   
+    
+    <!-- hibernate日志输入 -->
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder"
+        level="INFO" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor"
+        level="INFO" />
+    <logger name="org.hibernate.SQL" level="INFO" />
+    <logger name="org.hibernate.engine.QueryParameters" level="INFO" />
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="INFO" />
+    
+    
+     <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">  
+        <!--日志异步到数据库 -->   
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">  
+           <!--连接池 -->         
+              <driverClass>com.mysql.jdbc.Driver</driverClass>  
+              <url>jdbc:mysql://127.0.0.1:3306/crm</url>  
+              <user>root</user>  
+              <password>password</password>              
+        </connectionSource>  
+  </appender>  
+
+    <root level="WARN">
+         <appender-ref ref="FILE" />
+        <appender-ref ref="DB" />
+    </root>
+ 
+    
+    
+</configuration>
