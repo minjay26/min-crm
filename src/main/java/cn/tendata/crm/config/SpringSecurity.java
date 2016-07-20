@@ -41,6 +41,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter{
     	 .permitAll()
     	 .and()
     	 .logout().deleteCookies().invalidateHttpSession(true).permitAll();
+    	 http.sessionManagement()/*.sessionAuthenticationErrorUrl("/invalidSession")*/.maximumSessions(1);
     
     }
 }

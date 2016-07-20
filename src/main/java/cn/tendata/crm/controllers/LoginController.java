@@ -9,6 +9,7 @@ import ch.qos.logback.classic.Logger;
 @Controller
 public class LoginController {
 	
+
 	private static final Logger LOGGER=(Logger) LoggerFactory.getLogger(LoginController.class);
 	
 //	@Autowired
@@ -26,6 +27,11 @@ public class LoginController {
 	@RequestMapping("/login")
 	public String login() {
 		return "/login";
+	}
+	
+	@RequestMapping("/invalidSession")
+	public String doubleLogin(){
+		return "/invalidSession";
 	}
 
 //	@RequestMapping(value = "/login", method = RequestMethod.POST)

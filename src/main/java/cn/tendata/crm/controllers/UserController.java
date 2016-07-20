@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ch.qos.logback.classic.Logger;
 import cn.tendata.crm.controllers.util.GetCurrentInfo;
+import cn.tendata.crm.entities.Department;
 import cn.tendata.crm.entities.SysRole;
 import cn.tendata.crm.entities.User;
 import cn.tendata.crm.service.SysRoleService;
@@ -44,8 +45,8 @@ public class UserController {
 	@Autowired
     private GetCurrentInfo currentInfo;
    
-	@RequestMapping("/department_users/{page}/{dpId}")
-	public String getUsersByDpId(@PathVariable int page,@PathVariable int dpId,ModelMap map){
+	@RequestMapping("/department_users/{dpId}/{page}")
+	public String getUsersByDpId(@PathVariable int dpId,@PathVariable int page,ModelMap map){
 		Page<User> usersPage=this.useService.getDepartment_users(dpId,page,5);
 		List<User> usersOfSameDpId=usersPage.getContent();
 		int pageSum=usersPage.getTotalPages();
@@ -113,4 +114,15 @@ public class UserController {
 		this.useService.updata(user);
 		return "{ result: true, message: \"修改成功\" }";
 	}
+	
+	@RequestMapping("/users-remove/{sId}")
+	@ResponseBody
+	public String remove(@PathVariable int sId){
+		User user=this.useService.get(sId);
+		this.useService.remove(sId);
+		UserDetails currentUser=this.currentInfo.getCurrentInfo();
+		LOGGER.warn("{}删除了部门：{}",currentUser.getUsername(),user.getUsername());
+		return "{result:true,message:\"删除成功\"}";
+	}
+	
 }

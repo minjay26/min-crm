@@ -20,4 +20,6 @@ public interface UserService {
       User get(int sId);
 
 	void addUserNumOfDp(int dpId);
+
+	  void remove(int sId);
 }
