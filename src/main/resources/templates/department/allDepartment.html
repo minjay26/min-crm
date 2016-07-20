@@ -1,0 +1,53 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="UTF-8" />
+<script th:src="@{\jquery\jquery-1.11.3.min.js}"></script>
+<script th:src="@{\js\department.js}"></script>
+</head>
+<body>
+	<div id="top" th:include="home :: head"></div>
+	<div id="content">
+		<div id="content-left" th:replace="home :: content_left"></div>
+		<div id="content-right">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>部门名称</th>
+						<th>部门人数</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr th:each="ele : ${dpList}">
+						<td ><a th:href="@{/department_users/{dpId}/0(dpId=${ele.dpId})}" class="department_users"
+							 th:text="${ele.dpName }"></a></td>
+						<td th:text="${ele.numOfEmployess }"></td>						
+						<td sec:authorize="hasRole('ROLE_ADMIN')">
+							<button  class="modify" th:value="${ele.dpId}">
+							   <span class="glyphicon glyphicon-edit" >修改</span>
+							</button> 
+							<button  class="remove" th:value="${ele.dpId}" >
+								<span class="glyphicon glyphicon-remove">删除</span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<a href="javascript:void(0)" id="addDepartment">增加部门</a>
+			</sec:authorize>
+			<div>
+				<span id="myModal"></span>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
+

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8"/>
+ <script th:src="@{/js/login.js}"></script>
+</head>
+<body>
+
+    <form action="login" method="post">
+       账户 <input type="text" name="username" id="username" onblur="validate();"/><span id="tip_username" class="tip"></span>
+       账密码<input type="password" name="password" id="password" onblur="validate();"/><span id="tip_password" class="tip"></span>
+       <input type="submit" value="提交" onclick="return validate();"/> 
+   </form>
+   
+  
+</body>
+
+</html>

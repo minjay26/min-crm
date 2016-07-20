@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="UTF-8"/>
+<script th:src="@{\jquery\jquery-1.11.3.min.js}"></script>
+<script th:src="@{\js\head.js}"></script>
+<link rel="stylesheet" th:href="@{\bootstrap\css\bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{\css\home.css}"/>
+ <link rel="stylesheet" th:href="@{\css\head.css}"/>
+<script th:src="@{\bootstrap\js\bootstrap.min.js}"></script>
+</head>
+<body>
+	<div th:id="top"  th:fragment="head">
+	   当前用户：<span th:text="${#username}">模拟用户</span>
+     <span>
+	   <a href="/logout">注销</a>
+	</span>
+	
+	<span id="title">客户资源管理系统</span>
+	<span id="time"></span>
+	</div>
+	
+	<div id="content">	
+	    <div th:id="content-left" th:fragment="content_left">
+	         <ul id="menu">
+	              <li><a  href="/department_getAll" class="tab">部门管理</a></li>
+	              <li><a  href="/allCustomerWithPage/0" class="tab">客户管理</a></li>
+	              <li><a  href="/allProductWithPage/0" class="tab">产品管理</a></li>
+	              <li><a  href="/order_getAll/0" class="tab">订单查询</a></li>
+	           <sec:authorize access="hasRole('ROLE_ADMIN')">
+		          <li><a  href="log_getAll"  class="tab">查看系统日志</a></li>
+		          <li><a href="reimbursement">财务报销管理</a></li>
+	           </sec:authorize>
+	           <sec:authorize access="hasRole('ROLE_USER')">
+	              <li><a href="personReimbursement">个人财务报销</a></li>
+	           </sec:authorize>
+           </ul>
+	   </div>
+	   <div id="content-right"></div>
+	</div>
+	
+	<div id="buttom"></div>
+
+</body>
+</html>

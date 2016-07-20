@@ -1,0 +1,71 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="UTF-8" />
+<script th:src="@{\jquery\jquery-1.11.3.min.js}"></script>
+<script th:src="@{\js\users.js}"></script>
+</head>
+<body>
+	<div id="top" th:include="home :: head"></div>
+	<div id="content">
+		<div id="content-left" th:replace="home :: content_left"></div>
+		<div id="content-right">
+			<input type="hidden" th:value="${currentDpId}" id="currentDpId" />
+
+			<div id="users" th:if="${isExist==true}">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>账号</th>
+							<th>性别</th>
+							<th>密码</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+
+
+						<tr th:each="ele : ${usersOfSameDpId}">
+							<td th:text="${ele.username }"></td>
+							<td th:text="${ele.account }"></td>
+							<td th:text="${ele.gender }"></td>
+							<td th:text="${ele.password }"></td>
+
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<td><a href="javascript:void(0);"
+									url="user-modify/${ele.sId}" class="user-modify"><span
+										class="glyphicon glyphicon-edit">修改</span></a> 
+								  <button  class="user-remove" th:value="${ele.sId }">
+								        <span class="glyphicon glyphicon-remove">删除</span>
+								  </button>
+								</td>
+							</sec:authorize>
+
+						</tr>
+
+					</tbody>
+				</table>
+				<nav>
+				
+					<ul class="pagination" th:each="i : ${#numbers.sequence(1,pageSum)}">
+
+						<li><a href="javascript:void(0)" class="queryUserPage"
+							th:url="department_users/${i-1}/${currentDpId}" th:text="${i}">1</a></li>
+			
+					</ul>
+				</nav>
+				<br />
+			</div>
+			<div id="noData" th:if="${isExist==false}">无该部门员工信息</div>
+
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<a href="javascript:void(0)" id="addUser">增加员工信息</a>
+			</sec:authorize>
+			<div id="showUser"></div>
+		</div>
+	</div>
+</body>
+</html>
